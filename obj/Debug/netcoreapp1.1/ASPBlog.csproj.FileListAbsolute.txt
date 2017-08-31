@@ -1,0 +1,8 @@
+/Users/paulvandyke/PluralSight/ASPBlog/bin/Debug/netcoreapp1.1/ASPBlog.deps.json
+/Users/paulvandyke/PluralSight/ASPBlog/bin/Debug/netcoreapp1.1/ASPBlog.runtimeconfig.json
+/Users/paulvandyke/PluralSight/ASPBlog/bin/Debug/netcoreapp1.1/ASPBlog.runtimeconfig.dev.json
+/Users/paulvandyke/PluralSight/ASPBlog/bin/Debug/netcoreapp1.1/ASPBlog.dll
+/Users/paulvandyke/PluralSight/ASPBlog/bin/Debug/netcoreapp1.1/ASPBlog.pdb
+/Users/paulvandyke/PluralSight/ASPBlog/obj/Debug/netcoreapp1.1/ASPBlog.AssemblyInfo.cs
+/Users/paulvandyke/PluralSight/ASPBlog/obj/Debug/netcoreapp1.1/ASPBlog.dll
+/Users/paulvandyke/PluralSight/ASPBlog/obj/Debug/netcoreapp1.1/ASPBlog.pdb
