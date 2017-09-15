@@ -4,14 +4,121 @@
 <h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+@section scripts {
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js" ></script>
+}
+<!-- add some angular code   should see ng scope in dev tools if angular is working  -->
+<div class="row" ng-app >
+    <!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <meta charset="utf-8">
+  <title>Reddit Clone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link  rel="stylesheet" type="text/css" href="css/app.css"/> 
+</head>
+<body>
+  <app></app>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.js"></script>
+  <script type="text/javascript">
+    angular.module("app", [])
+      .component('app', {
+        controller: function () {
+          const vm = this
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+          vm.$onInit = function () {
+            vm.postData = [
+               {
+            title: 'Lighting ls 218',
+            body: 'Lightning Motorcycle has designed and produced a Sportbike sure to change the minds of anyone doubting electric motorcycle performance. The LS-218 is the fastest production motorcycle in the world - gas or electric. Retail price starts at $38,888 USD.',
+            author: 'author: Paul VanDyke',
+            comments: ['How would this bike compare to the h2R?','What is the top speed of the h2r ?','What is the quater mile time on that ?'], 
+            likes: 3,
+            image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRUQQG17WB9cx8_cf9dfO8wdwUHYhGB93ZOZhQQtO4mh4tWAASS',
+            date: 'Apr 10, 2017 5:49:21 PM'
+             }, 
+             {
+               title:'Rimaric concept one',
+             body:'The Rimac Concept One (also styled Concept_One) is a two-seat high-performance electric sports car designed and manufactured by Rimac Automobili. With a total output of 1,088 hp, an acceleration from 0–100 km/h (0–60 mph) in 2.8 seconds, and a price of US$980,000, Concept One has been described as the worlds first electric supercar[3] becoming the worlds fastest accelerating electric automobile as of 2013[4] to be only caught up with in 2015 by the Rimac Concept S. Between January 2013 and October 2014, all eight cars of its limited production run have been sold.[5]',
+             author:'Croatioa ',
+             comments: ['What is that frame and body made out of ?', 'why would I pay a million for that when the 0 to 60 time is pretty comprable to a tesla?','How bout some performance specs'],
+             likes: 5,
+             image:'http://wallpapersqq.net/wp-content/uploads/2016/06/rimac-concept-one-2016-high-quality-wallpapers.jpg',
+             date:'Apr 10, 2017 5:49:21 PM'
+             }
+            ]
+          }
+          vm.createPost = function () {
+            console.log('Creat post function called !!')
+             if(vm.post.title && vm.post.author && vm.post.body && vm.post.image){
+               vm.post.date = new Date(); 
+               vm.post.comments = [];
+               vm.post.likes = 0; 
+                vm.postData.push(vm.post)
+                 vm.showme = false;
+                 return;  
+             }
+            //alert("Please enter a value for all form feilds")
+          }
+
+          vm.createComment = function (post, newComment) {
+            console.log('Create comment called')
+           post.comments.push(newComment)
+          }
+
+          vm.addLike = function (post) {
+            post.likes ++; 
+          }
+
+          vm.takeLike = function (post) {
+            if(post.likes > 0){
+               post.likes --; 
+            }
+          }
+        },
+
+        template:  `<h1>Reddit Clone</h1>
+    <p><input type="text" placeholder='Filter' ng-model="search.title" />
+         <select ng-model="$ctrl.sortBy" ng-change="$ctrl.setSort($ctrl.sortBy)"> Sort by Likes
+     <option >Select </option>
+      <option value="-likes">Likes</option>
+      <option value="date" >Date</option>
+      </select>
+      <button ng-click="showme = !showme" >New Post</button></p>
+   <form  ng-show="showme" ng-submit="$ctrl.createPost()"  >                            
+    <p>Title</p>
+    <input type="text" name="title" palceholder="title" ng-model="$ctrl.post.title" required >
+    <p>Body</p>
+    <textarea type="text" name="body" ng-model="$ctrl.post.body" required ></textarea>
+    <p>Author</p>
+    <input name="author" type="text" ng-model="$ctrl.post.author" required >
+    <p>Image Url</p>
+    <input name="image" type="text"ng-model="$ctrl.post.image" required >
+    <p><button ng-click="showme=false">Cancel</button>  <button type="submit"  >Create Post</button> </p>
+    </form>
+    <div  ng-repeat="post in $ctrl.postData | filter:search:strict | orderBy:$ctrl.sortBy">
+        <h1>{{post.title}}</h1>
+        <p> <button ng-click="$ctrl.addLike(post)" >Like</button> {{post.likes}} Likes <button ng-click="$ctrl.takeLike(post)" >Dislike</button> {{post.comments.length}} <ng-pluralize count='post.comments.length' when="{'1': 'Comment', 'other' : 'Comments'}"></ng-pluralize></p>  
+        <p>{{post.author}}</p>
+        <p>{{post.body}}</p>
+        <p>{{post.date | date:'medium'}}</p> 
+        <img width="300px" src="{{post.image}}"/>
+        <button ng-click="showComment = !showComment" >Comments</button>
+         <div  ng-show="showComment" > 
+          <p ng-repeat="comment in post.comments" >{{comment}}</p>
+          <button ng-click="addComment = !addComment" >Add Comment</button>
+          <p ng-show="addComment"> <input ng-model="newComment"></input> <button ng-click="$ctrl.createComment(post, newComment); addComment = false" >Submit Comment</button> </p>
+          <div>
+    </div>`
+      })
+
+      //<select ng-model="$ctrl.orderBy" ng-click="$ctrl.setSort()">
+        //<option value="likes">Likes</option>
+
+   
+     // ng-click="showme = false"
+  </script>
+</body>
+</html>
+

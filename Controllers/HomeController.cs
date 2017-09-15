@@ -10,6 +10,7 @@ namespace ASPBlog.Controllers
     {
         public IActionResult Index()
         {
+
             return View();
         }
 
@@ -31,5 +32,6 @@ namespace ASPBlog.Controllers
         {
             return View();
         }
+    
     }
 }
